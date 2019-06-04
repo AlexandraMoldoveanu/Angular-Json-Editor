@@ -1,5 +1,5 @@
 <form novalidate [formGroup]="parentForm" style="margin-left:50px">
-  <div formArrayName="arrayOfFields">
+  <div class="main" formArrayName="arrayOfFields">
 
     <div *ngFor="let editor of parentForm.controls.arrayOfFields.controls; let i=index">
 
@@ -7,7 +7,7 @@
         <span>
           <label for="field">Field</label>
           <input id="field" *ngIf="!isArray" type="text" formControlName="field">
-          <span class="arrayFieldProp" *ngIf="isArray">{{editor.controls.field.value}}</span>
+          <input disabled type="text" formControlName="field"*ngIf="isArray">
         </span>
 
         <span>
