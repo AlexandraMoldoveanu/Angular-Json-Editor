@@ -2,48 +2,63 @@
   <div formArrayName="arrayOfFields">
 
     <div *ngFor="let editor of parentForm.controls.arrayOfFields.controls; let i=index">
-      <span>
-        <button type="button" style="background-color:rgb(217, 192, 238)" (click)="deleteField(i)">Delete</button>
-      </span>
-      <span [formGroupName]="i">
-        Field <input *ngIf="!isArray" type="text" formControlName="field">
-        <span class="arrayFieldProp" *ngIf="isArray">{{editor.controls.field.value}}</span>
-        Type <select formControlName="type">
-          <option value="string">string</option>
-          <option value="number">number</option>
-          <option value="boolean">boolean</option>
-          <option value="object">map</option>
-          <option value="array">array</option>
-        </select>
-        <span *ngIf="isPrimitiveType(editor.controls.type.value)">Value</span>
+
+      <div [formGroupName]="i" class="editor">
+        <span>
+          <label for="field">Field</label>
+          <input id="field" *ngIf="!isArray" type="text" formControlName="field">
+          <span class="arrayFieldProp" *ngIf="isArray">{{editor.controls.field.value}}</span>
+        </span>
+
+        <span>
+          <label for="type">Type</label>
+          <select id="type" formControlName="type">
+            <option value="string">string</option>
+            <option value="number">number</option>
+            <option value="boolean">boolean</option>
+            <option value="object">map</option>
+            <option value="array">array</option>
+          </select>
+        </span>
+
         <span [ngSwitch]="editor.controls.type.value">
-          <input *ngSwitchCase="'string'" type="text" formControlName="value" >
-          <input *ngSwitchCase="'number'" type="number" formControlName="value" >
-          <select *ngSwitchCase="'boolean'" formControlName="value">
+          <span *ngIf="isPrimitiveType(editor.controls.type.value)">
+            <label for="value">Value</label>
+          </span>
+          <input id="value" *ngSwitchCase="'string'" type="text" formControlName="value">
+          <input id="value" *ngSwitchCase="'number'" type="number" formControlName="value">
+          <select id="value" *ngSwitchCase="'boolean'" formControlName="value">
             <option value="true">True</option>
             <option value="false">False</option>
           </select>
         </span>
-        <!-- check if value selected is object -->
-        <span *ngIf="editor.controls.type.value=='object'">
-          <app-editor [parentFieldName]="editor.controls.field.value"
-            [isArray]="false" [isRoot]="false" [mapObject]="getChildEditorObjectValue(editor.controls.value.value)">
-          </app-editor>
-        </span>
 
-        <!-- check if value selected is array -->
-        <span *ngIf="editor.controls.type.value=='array'">
-          <app-editor [parentFieldName]="editor.controls.field.value"
-            [isArray]="true" [isRoot]="false" [mapObject]="getChildEditorArrayValue(editor.controls.value.value)">
-          </app-editor>
-        </span>
-      </span>
+       <span>
+         <label></label>
+          <i class="fa fa-minus-circle" (click)="deleteField(i)"></i>
+       </span>
+        
+      </div>
+
+      <!-- check if value selected is object -->
+      <div *ngIf="editor.controls.type.value=='object'">
+        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="false" [isRoot]="false" [mapObject]="getChildEditorObjectValue(editor.controls.value.value)">
+        </app-editor>
+      </div>
+
+      <!-- check if value selected is array -->
+      <div *ngIf="editor.controls.type.value=='array'">
+        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="true" [isRoot]="false" [mapObject]="getChildEditorArrayValue(editor.controls.value.value)">
+        </app-editor>
+      </div>
+
     </div>
   </div>
   <div>
-    <button type="button" (click)="addField()" style="background-color:rgba(114, 198, 231, 0.336)">Add Field</button>
+    <!-- <button type="button" (click)="addField()" style="background-color:rgba(114, 198, 231, 0.336)">Add Field</button> -->
+    <i class="fa fa-plus-circle" (click)="addField()"></i>
   </div>
   <button [disabled]="!isEditorFormValid()" (click)=save() *ngIf="isRoot" style="margin-top:50px">Save</button>
-  
+
 </form>
 <h4 *ngIf="isRoot">Form Valid: {{ isEditorFormValid() }}</h4>
