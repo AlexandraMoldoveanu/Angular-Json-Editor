@@ -7,7 +7,7 @@
         <span>
           <label for="field">Field</label>
           <input id="field" *ngIf="!isArray" type="text" formControlName="field">
-          <input disabled type="text" formControlName="field"*ngIf="isArray">
+          <input [attr.disabled]="true" type="text" formControlName="field"*ngIf="isArray">
         </span>
 
         <span>
