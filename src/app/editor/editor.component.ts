@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { NaoFormGroup, NaoFormArray, NaoFormControl } from '@naologic/forms';
+
 
 @Component({
   selector: 'app-editor',
@@ -8,7 +10,7 @@ import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 })
 export class EditorComponent implements OnInit {
   constructor() { }
-  public parentForm: FormGroup;
+  public parentForm: NaoFormGroup;
   @Input() mapObject: any;
   @Input() isRoot: boolean;
   @Input() isArray: boolean;
@@ -16,19 +18,19 @@ export class EditorComponent implements OnInit {
   @ViewChildren(EditorComponent) private editorChildren: QueryList<EditorComponent>;
 
   ngOnInit() {
-    const formArray = new FormArray([]);
+    const formArray = new NaoFormArray([]);
     // tslint:disable-next-line:forin
     if (this.mapObject) {
       // tslint:disable-next-line:forin
       for (const key in this.mapObject) {
-        formArray.push(new FormGroup({
-          field: new FormControl(key, Validators.required),
-          type: new FormControl(this.getTypeOfField(this.mapObject[key]), Validators.required),
-          value: new FormControl(this.mapObject[key], Validators.required)
+        formArray.push(new NaoFormGroup({
+          field: new NaoFormControl(key, Validators.required),
+          type: new NaoFormControl(this.getTypeOfField(this.mapObject[key]), Validators.required),
+          value: new NaoFormControl(this.mapObject[key], Validators.required)
         }));
       }
     }
-    this.parentForm = new FormGroup({ arrayOfFields: formArray });
+    this.parentForm = new NaoFormGroup({ arrayOfFields: formArray });
   }
 
   isPrimitiveType(value: string): boolean {
