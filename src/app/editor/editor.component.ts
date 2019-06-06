@@ -62,13 +62,13 @@ export class EditorComponent implements OnInit {
   }
 
   deleteField(idx: number): void {
-    const arrayOfFieldsCasted = this.parentForm.controls.arrayOfFields as FormArray;
+    const arrayOfFieldsCasted = this.parentForm.getAsNaoFormArray('arrayOfFields');
     arrayOfFieldsCasted.removeAt(idx);
   }
 
   addField(): void {
     let fieldName = 'prop1';
-    const arrayOfFieldsCasted = this.parentForm.controls.arrayOfFields as FormArray;
+    const arrayOfFieldsCasted = this.parentForm.getAsNaoFormArray('arrayOfFields');
     if (this.isArray) {
       //@ts-ignore
       fieldName = arrayOfFieldsCasted.controls.length;
