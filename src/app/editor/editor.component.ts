@@ -15,8 +15,12 @@ export class EditorComponent implements OnInit {
     { option: 'string', displayValue: 'String', defaultValue: () => '' },
     { option: 'number', displayValue: 'Number', defaultValue: () => 0 },
     { option: 'boolean', displayValue: 'Boolean', defaultValue: () => true },
-    { option: 'object', displayValue: 'Map', defaultValue: () => { } },
-    { option: 'array', displayValue: 'Array', defaultValue: () => [] },
+    {
+      option: 'object', displayValue: 'Map', defaultValue: () => {
+        return { 'prop1': 'test' };
+      }
+    },
+    { option: 'array', displayValue: 'Array', defaultValue: () => [''] },
     { option: 'generateUuid', displayValue: 'Uuid', defaultValue: () => Guid.create().toString() },
     { option: 'date', displayValue: 'Date', defaultValue: () => this.getDate()}
   ];
@@ -81,18 +85,15 @@ export class EditorComponent implements OnInit {
     return typeof (val);
   }
 
-  getChildEditorObjectValue(value: any): any {
-    if (typeof (value) === 'object') {
+  getChildEditorObjectValue(value: any, type: string): any {
+    if (value) {
       return value;
     }
-    return { prop1: 'test for object' };
-  }
-
-  getChildEditorArrayValue(value: any[]): any[] {
-    if (Array.isArray(value)) {
-      return value;
+    for( const opt of this.typeOptions ) {
+      if( opt.option === type ) {
+        return opt.defaultValue();
+      }
     }
-    return ['test for array'];
   }
 
   deleteField(idx: number): void {

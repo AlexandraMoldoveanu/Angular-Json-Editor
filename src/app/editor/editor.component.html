@@ -40,13 +40,13 @@
 
       <!-- check if value selected is object -->
       <div *ngIf="editor.controls.type.value=='object'">
-        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="false" [isRoot]="false" [mapObject]="getChildEditorObjectValue(editor.controls.value.value)">
+        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="false" [isRoot]="false" [mapObject]="getChildEditorObjectValue(editor.controls.value.value, editor.controls.type.value)">
         </app-editor>
       </div>
 
       <!-- check if value selected is array -->
       <div *ngIf="editor.controls.type.value=='array'">
-        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="true" [isRoot]="false" [mapObject]="getChildEditorArrayValue(editor.controls.value.value)">
+        <app-editor [parentFieldName]="editor.controls.field.value" [isArray]="true" [isRoot]="false" [mapObject]="getChildEditorObjectValue(editor.controls.value.value, editor.controls.type.value)">
         </app-editor>
       </div>
 
