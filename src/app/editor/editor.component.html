@@ -12,12 +12,8 @@
 
         <span>
           <label for="type">Type</label>
-          <select id="type" formControlName="type">
-            <option value="string">string</option>
-            <option value="number">number</option>
-            <option value="boolean">boolean</option>
-            <option value="object">map</option>
-            <option value="array">array</option>
+          <select id="type" formControlName="type" (ngModelChange)="optionChanged($event, editor.controls.value)">
+            <option *ngFor="let opt of typeOptions" [value]="opt.option">{{opt.displayValue}}</option>
           </select>
         </span>
 
@@ -31,6 +27,8 @@
             <option value="true">True</option>
             <option value="false">False</option>
           </select>
+          <input id="value" *ngSwitchCase="'generateUuid'" type="text" formControlName="value">
+          <input id="value" *ngSwitchCase="'date'" type="date" formControlName="value" >
         </span>
 
        <span>
