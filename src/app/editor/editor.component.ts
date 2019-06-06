@@ -8,21 +8,23 @@ import { Guid } from 'guid-typescript';
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css']
 })
+
 export class EditorComponent implements OnInit {
   constructor() { }
   public parentForm: NaoFormGroup;
   public typeOptions = [
-    { option: 'string', displayValue: 'String', defaultValue: () => '' },
-    { option: 'number', displayValue: 'Number', defaultValue: () => 0 },
-    { option: 'boolean', displayValue: 'Boolean', defaultValue: () => true },
-    {
-      option: 'object', displayValue: 'Map', defaultValue: () => {
-        return { 'prop1': 'test' };
-      }
-    },
-    { option: 'array', displayValue: 'Array', defaultValue: () => [''] },
-    { option: 'generateUuid', displayValue: 'Uuid', defaultValue: () => Guid.create().toString() },
-    { option: 'date', displayValue: 'Date', defaultValue: () => this.getDate()}
+    { option: 'string', displayValue: 'String', defaultValue: () => Promise.resolve('') },
+    { option: 'number', displayValue: 'Number', defaultValue: () => Promise.resolve( 0 ) },
+    { option: 'boolean', displayValue: 'Boolean', defaultValue: () => Promise.resolve( true ) },
+    { option: 'object', displayValue: 'Map', defaultValue: () => Promise.resolve({ 'prop1': 'test' })},
+    { option: 'array', displayValue: 'Array', defaultValue: () => Promise.resolve( [''] ) },
+    { option: 'generateUuid', displayValue: 'Uuid', defaultValue: () => Promise.resolve( Guid.create().toString() ) },
+    { option: 'date', displayValue: 'Date', defaultValue: () => Promise.resolve( this.getDate() )},
+    { option: 'name', displayValue: 'Name', defaultValue: () => {
+      return new Promise( (resolve, reject) => {
+       setTimeout( () => resolve( 'randomName' ), 3000);
+      });
+    } }
   ];
   @Input() mapObject: any;
   @Input() isRoot: boolean;
@@ -47,29 +49,29 @@ export class EditorComponent implements OnInit {
     this.parentForm = new NaoFormGroup({ arrayOfFields: formArray });
   }
 
-  optionChanged(event, control): void {
+  async optionChanged(event, control) {
     for (const opt of this.typeOptions) {
       if (opt.option === event) {
-        console.log(opt.defaultValue())
-        control.setValue(opt.defaultValue());
+      control.setValue( await opt.defaultValue());
       }
     }
   }
+
   getDate(): string {
-      const today = new Date();
-      let month;
-      let day;
-      if ( today.getMonth() < 10 ) {
-        month = `0${today.getMonth() + 1}`;
-      } else {
-        month = today.getMonth();
-      }
-      if ( today.getDate() < 10 ) {
-        day = `0${today.getDate()}`;
-      } else {
-        day = today.getDate()
-      }
-      return `${today.getFullYear()}-${month}-${day}`;
+    const today = new Date();
+    let month;
+    let day;
+    if (today.getMonth() < 10) {
+      month = `0${today.getMonth() + 1}`;
+    } else {
+      month = today.getMonth();
+    }
+    if (today.getDate() < 10) {
+      day = `0${today.getDate()}`;
+    } else {
+      day = today.getDate()
+    }
+    return `${today.getFullYear()}-${month}-${day}`;
   }
   isPrimitiveType(value: string): boolean {
     if (value === 'object' || value === 'array') {
@@ -85,12 +87,12 @@ export class EditorComponent implements OnInit {
     return typeof (val);
   }
 
-  getChildEditorObjectValue(value: any, type: string): any {
-    if (value) {
+  getChildEditorObjectValue(value: any, type: string): Promise<any> {
+    if (value){
       return value;
     }
-    for( const opt of this.typeOptions ) {
-      if( opt.option === type ) {
+    for (const opt of this.typeOptions) {
+      if (opt.option === type) {
         return opt.defaultValue();
       }
     }
