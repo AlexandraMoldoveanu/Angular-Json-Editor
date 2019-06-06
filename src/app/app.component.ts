@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
          {name: 'Ale', age: 30},
          {name: 'Stefan', age: 30}
        ],
-       eats: ['toast', 'pufuleti', 'hair']
+       eats: ['toast', 'pufuleti', 'hair'],
+       
      };
    }
 }
