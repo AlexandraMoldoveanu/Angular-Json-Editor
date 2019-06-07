@@ -2,7 +2,6 @@ import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { NaoFormGroup, NaoFormArray, NaoFormControl } from '@naologic/forms';
 import { Guid } from 'guid-typescript';
-import {  NgOption } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-editor',
@@ -88,6 +87,9 @@ export class EditorComponent implements OnInit {
   getTypeOfField(val: any): string {
     if (Array.isArray(val)) {
       return 'array';
+    }
+    if( typeof val === 'string' && /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(val)){
+      return 'date';
     }
     return typeof (val);
   }

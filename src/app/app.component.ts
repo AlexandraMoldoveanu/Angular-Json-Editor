@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
        name: 'Aluna',
        age: 3,
        cool: true,
-       dateOfBirth: '01.08.2016',
+       dateOfBirth: '2016-08-01',
        owners: [
          {name: 'Ale', age: 30},
          {name: 'Stefan', age: 30}
