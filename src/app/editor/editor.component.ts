@@ -88,9 +88,12 @@ export class EditorComponent implements OnInit {
     if (Array.isArray(val)) {
       return 'array';
     }
-    if( typeof val === 'string' && /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(val)){
+    if ( typeof val === 'string' && /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(val)){
       return 'date';
+    } else if ( typeof val === 'string' && /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/.test( val) ) {
+      return 'generateUuid';
     }
+    
     return typeof (val);
   }
 
