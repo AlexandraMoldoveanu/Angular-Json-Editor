@@ -13,14 +13,19 @@ export class AppComponent implements OnInit {
    ngOnInit() {
      this.dataObject = {
        name: 'Aluna',
-       age: 2,
+       age: 3,
        cool: true,
+       dateOfBirth: '01.08.2016',
        owners: [
          {name: 'Ale', age: 30},
          {name: 'Stefan', age: 30}
        ],
        eats: ['toast', 'pufuleti', 'hair'],
-       
+       likes: {
+         activities: [ 'playCatch', 'drink my water', 'washing up'],
+         beings: [ 'humans', 'insects'],
+         favoriteHuman: { name: 'S', motive: 'unknown'}
+       }
      };
    }
 }

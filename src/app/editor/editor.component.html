@@ -7,14 +7,14 @@
         <span>
           <label for="field">Field</label>
           <input id="field" *ngIf="!isArray" type="text" formControlName="field">
-          <input [attr.disabled]="true" type="text" formControlName="field"*ngIf="isArray">
+          <input [attr.disabled]="true" type="text" formControlName="field" *ngIf="isArray">
         </span>
 
         <span>
           <label for="type">Type</label>
-          <select id="type" formControlName="type" (ngModelChange)="optionChanged($event, editor.controls.value)">
-            <option *ngFor="let opt of typeOptions" [value]="opt.option">{{opt.displayValue}}</option>
-          </select>
+          <ng-select (change)="optionChanged($event, editor.controls.value)" class="ng-select" [multiple]="false"
+            [clearable]="false" [items]="typeOptions" formControlName="type" bindValue="option" bindLabel="displayValue">
+          </ng-select>
         </span>
 
         <span [ngSwitch]="editor.controls.type.value">
@@ -28,15 +28,15 @@
             <option value="false">False</option>
           </select>
           <input id="value" *ngSwitchCase="'generateUuid'" type="text" formControlName="value">
-          <input id="value" *ngSwitchCase="'date'" type="date" formControlName="value" >
+          <input id="value" *ngSwitchCase="'date'" type="date" formControlName="value">
           <input id="value" *ngSwitchCase="'name'" type="text" formControlName="value">
         </span>
 
-       <span>
-         <label></label>
+        <span>
+          <label></label>
           <i class="fa fa-minus-circle" (click)="deleteField(i)"></i>
-       </span>
-        
+        </span>
+
       </div>
 
       <!-- check if value selected is object -->

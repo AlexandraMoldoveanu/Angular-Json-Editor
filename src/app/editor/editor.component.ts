@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { NaoFormGroup, NaoFormArray, NaoFormControl } from '@naologic/forms';
 import { Guid } from 'guid-typescript';
+import {  NgOption } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-editor',
@@ -10,11 +11,13 @@ import { Guid } from 'guid-typescript';
 })
 
 export class EditorComponent implements OnInit {
-  constructor() { }
+  constructor() {
+
+   }
   public parentForm: NaoFormGroup;
   public typeOptions = [
-    { option: 'string', displayValue: 'String', defaultValue: () => Promise.resolve('') },
-    { option: 'number', displayValue: 'Number', defaultValue: () => Promise.resolve( 0 ) },
+    {  option: 'string', displayValue: 'String', defaultValue: () => Promise.resolve('') },
+    {  option: 'number', displayValue: 'Number', defaultValue: () => Promise.resolve( 0 ) },
     { option: 'boolean', displayValue: 'Boolean', defaultValue: () => Promise.resolve( true ) },
     { option: 'object', displayValue: 'Map', defaultValue: () => Promise.resolve({ 'prop1': 'test' })},
     { option: 'array', displayValue: 'Array', defaultValue: () => Promise.resolve( [''] ) },
@@ -26,6 +29,7 @@ export class EditorComponent implements OnInit {
       });
     } }
   ];
+
   @Input() mapObject: any;
   @Input() isRoot: boolean;
 
@@ -50,8 +54,9 @@ export class EditorComponent implements OnInit {
   }
 
   async optionChanged(event, control) {
+    console.log( event );
     for (const opt of this.typeOptions) {
-      if (opt.option === event) {
+      if (opt.option === event.option) {
       control.setValue( await opt.defaultValue());
       }
     }
